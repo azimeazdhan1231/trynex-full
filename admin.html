@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - TryneX Lifestyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            padding-top: 0;
+            background: var(--background-color);
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-large);
+            padding: 1rem;
+        }
+        
+        .admin-tab {
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .admin-tab.active {
+            background: var(--primary-color);
+            color: var(--background-color);
+            border-color: var(--primary-color);
+        }
+        
+        .admin-tab:hover:not(.active) {
+            background: var(--surface-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .admin-content {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            min-height: 600px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .back-to-site {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: var(--primary-color);
+            color: var(--background-color);
+            padding: 1rem;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition-fast);
+            z-index: 1000;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .back-to-site:hover {
+            background: var(--background-color);
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Site Button -->
+    <a href="index.html" class="back-to-site" title="Back to Website">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h1><i class="fas fa-cog"></i> TryneX Admin Panel</h1>
+            <p>Manage your e-commerce store</p>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+            <div class="admin-tab active" onclick="showTab('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </div>
+            <div class="admin-tab" onclick="showTab('orders')">
+                <i class="fas fa-box"></i> Orders
+            </div>
+            <div class="admin-tab" onclick="showTab('products')">
+                <i class="fas fa-tags"></i> Products
+            </div>
+            <div class="admin-tab" onclick="showTab('analytics')">
+                <i class="fas fa-chart-bar"></i> Analytics
+            </div>
+        </div>
+
+        <!-- Admin Content -->
+        <div class="admin-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content active">
+                <h2>Dashboard Overview</h2>
+                <div id="dashboard-content">
+                    <!-- Dashboard content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content">
+                <h2>Order Management</h2>
+                <div id="orders-content">
+                    <!-- Orders content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products-tab" class="tab-content">
+                <h2>Product Management</h2>
+                <div id="products-content">
+                    <!-- Products content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-content">
+                <h2>Analytics & Reports</h2>
+                <div id="analytics-content">
+                    <!-- Analytics content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/admin.js"></script>
+    
+    <script>
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL parameters for initial view
+            const urlParams = new URLSearchParams(window.location.search);
+            const view = urlParams.get('view') || 'dashboard';
+            
+            showTab(view);
+            initializeAdmin();
+        });
+        
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Add active class to selected tab button
+            const tabs = document.querySelectorAll('.admin-tab');
+            const tabButtons = ['dashboard', 'orders', 'products', 'analytics'];
+            const tabIndex = tabButtons.indexOf(tabName);
+            if (tabIndex >= 0 && tabs[tabIndex]) {
+                tabs[tabIndex].classList.add('active');
+            }
+            
+            // Load content based on tab
+            loadTabContent(tabName);
+        }
+        
+        function loadTabContent(tabName) {
+            switch(tabName) {
+                case 'dashboard':
+                    loadAdminView('dashboard');
+                    break;
+                case 'orders':
+                    loadAdminView('orders');
+                    break;
+                case 'products':
+                    loadAdminView('products');
+                    break;
+                case 'analytics':
+                    loadAdminView('analytics');
+                    break;
+            }
+        }
+        
+        window.showTab = showTab;
+    </script>
+</body>
+</html>

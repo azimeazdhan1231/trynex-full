@@ -244,19 +244,13 @@
     <script src="assets/js/supabase.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/products.js"></script>
     <script>
         // Initialize products page
         document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
             initializeFilters();
-            
-            // Check for category parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-            if (category) {
-                document.getElementById('categoryFilter').value = category;
-                filterProducts();
-            }
+            handleURLParameters();
         });
     </script>
 </body>
