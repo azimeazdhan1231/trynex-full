@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - TryneX Lifestyle</title>
+    <meta name="description" content="Track your order status and delivery information">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TryneX Lifestyle</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="custom-design.html" class="nav-link">Custom Design</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="track-order.html" class="nav-link active">Track Order</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Track Your Order</h1>
+            <p>Enter your order ID to check the status and delivery information</p>
+        </div>
+    </section>
+
+    <!-- Order Tracking Section -->
+    <section class="order-tracking">
+        <div class="container">
+            <div class="tracking-form">
+                <div class="form-container">
+                    <h2>Enter Order Details</h2>
+                    <form id="trackingForm">
+                        <div class="form-group">
+                            <label for="orderId">Order ID *</label>
+                            <input type="text" id="orderId" placeholder="TXR-YYYYMMDD-XXX" required>
+                            <small>Order ID format: TXR-20241225-001</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmail">Email Address (Optional)</label>
+                            <input type="email" id="customerEmail" placeholder="your@email.com">
+                            <small>For additional verification</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-search"></i>
+                            Track Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Details -->
+            <div class="order-details" id="orderDetails" style="display: none;">
+                <div class="order-header">
+                    <h2>Order Information</h2>
+                    <div class="order-id-display">
+                        Order ID: <span id="displayOrderId"></span>
+                    </div>
+                </div>
+
+                <div class="order-content">
+                    <!-- Order Status -->
+                    <div class="order-status-section">
+                        <h3>Order Status</h3>
+                        <div class="status-timeline">
+                            <div class="status-step" data-status="pending">
+                                <div class="status-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h4>Order Placed</h4>
+                                    <p>Your order has been received and is being processed</p>
+                                    <span class="status-time" id="pendingTime"></span>
+                                </div>
+                            </div>
+                            <div class="status-step" data-status="processing">
+                                <div class="status-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h4>Processing</h4>
+                                    <p>Your order is being prepared and customized</p>
+                                    <span class="status-time" id="processingTime"></span>
+                                </div>
+                            </div>
+                            <div class="status-step" data-status="shipped">
+                                <div class="status-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h4>Shipped</h4>
+                                    <p>Your order has been shipped and is on the way</p>
+                                    <span class="status-time" id="shippedTime"></span>
+                                </div>
+                            </div>
+                            <div class="status-step" data-status="delivered">
+                                <div class="status-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h4>Delivered</h4>
+                                    <p>Your order has been successfully delivered</p>
+                                    <span class="status-time" id="deliveredTime"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="order-items-section">
+                        <h3>Order Items</h3>
+                        <div class="order-items-list" id="orderItemsList">
+                            <!-- Order items will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Delivery Information -->
+                    <div class="delivery-info-section">
+                        <h3>Delivery Information</h3>
+                        <div class="delivery-details" id="deliveryDetails">
+                            <!-- Delivery details will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="order-summary-section">
+                        <h3>Order Summary</h3>
+                        <div class="summary-details" id="orderSummary">
+                            <!-- Order summary will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Actions -->
+                <div class="order-actions">
+                    <button class="btn btn-secondary" onclick="printOrder()">
+                        <i class="fas fa-print"></i>
+                        Print Details
+                    </button>
+                    <button class="btn btn-outline" onclick="shareOrder()">
+                        <i class="fas fa-share-alt"></i>
+                        Share Status
+                    </button>
+                    <a href="contact.html" class="btn btn-primary">
+                        <i class="fas fa-headset"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+
+            <!-- No Order Found -->
+            <div class="no-order-found" id="noOrderFound" style="display: none;">
+                <div class="no-order-content">
+                    <i class="fas fa-search"></i>
+                    <h3>Order Not Found</h3>
+                    <p>আপনার দেওয়া Order ID টি খুঁজে পাওয়া যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।</p>
+                    <div class="no-order-actions">
+                        <button class="btn btn-primary" onclick="resetTracking()">
+                            Try Again
+                        </button>
+                        <a href="contact.html" class="btn btn-secondary">
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Orders (if available) -->
+    <section class="recent-orders" id="recentOrdersSection" style="display: none;">
+        <div class="container">
+            <h2>Your Recent Orders</h2>
+            <div class="recent-orders-list" id="recentOrdersList">
+                <!-- Recent orders will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section class="help-section">
+        <div class="container">
+            <h2>Need Help?</h2>
+            <div class="help-grid">
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Support</h3>
+                    <p>Get instant help via WhatsApp</p>
+                    <a href="https://wa.me/8801747292277" class="help-link" target="_blank">
+                        Chat Now
+                    </a>
+                </div>
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email Support</h3>
+                    <p>Send us your questions via email</p>
+                    <a href="mailto:trynexlifestyle@gmail.com" class="help-link">
+                        Send Email
+                    </a>
+                </div>
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>FAQ</h3>
+                    <p>Find answers to common questions</p>
+                    <a href="contact.html#faq" class="help-link">
+                        View FAQ
+                    </a>
+                </div>
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>Call Us</h3>
+                    <p>Speak directly with our team</p>
+                    <a href="tel:+8801747292277" class="help-link">
+                        01747292277
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Tracking Tips -->
+    <section class="tracking-tips">
+        <div class="container">
+            <h2>Order Tracking Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h3>Order ID Format</h3>
+                    <p>Order IDs follow the format: TXR-YYYYMMDD-XXX (e.g., TXR-20241225-001)</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Processing Time</h3>
+                    <p>Custom orders typically take 2-3 business days for production</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Delivery Time</h3>
+                    <p>Dhaka: 1-2 days, Outside Dhaka: 3-5 days after shipping</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notifications</h3>
+                    <p>You'll receive SMS/WhatsApp updates for major status changes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="cart-close" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: ৳<span id="cartTotal">0</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+                    <button class="btn btn-primary" onclick="proceedToCheckout()">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TryneX Lifestyle</h4>
+                    <p>Premium custom gifts and lifestyle products in Bangladesh.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="custom-design.html">Custom Design</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="products.html?category=mugs">Mugs</a></li>
+                        <li><a href="products.html?category=t-shirts">T-Shirts</a></li>
+                        <li><a href="products.html?category=bottles">Bottles</a></li>
+                        <li><a href="products.html?category=keychains">Keychains</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fab fa-whatsapp"></i> 01747292277</p>
+                    <p><i class="fas fa-envelope"></i> trynexlifestyle@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-icons">
+                    <span class="footer-icon" onclick="footerIconClick()">🎁</span>
+                    <span class="footer-icon" onclick="footerIconClick()">⭐</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🚀</span>
+                    <span class="footer-icon" onclick="footerIconClick()">💎</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🎨</span>
+                </div>
+                <p>&copy; 2024 TryneX Lifestyle. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Order tracking functionality
+        document.getElementById('trackingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            trackOrder();
+        });
+
+        function trackOrder() {
+            const orderId = document.getElementById('orderId').value.trim();
+            const email = document.getElementById('customerEmail').value.trim();
+            
+            if (!orderId) {
+                showNotification('Please enter a valid Order ID', 'error');
+                return;
+            }
+
+            showLoading();
+            
+            // Call tracking function from supabase.js
+            searchOrder(orderId, email)
+                .then(order => {
+                    hideLoading();
+                    if (order) {
+                        displayOrderDetails(order);
+                    } else {
+                        showNoOrderFound();
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Error tracking order:', error);
+                    showNotification('Error tracking order. Please try again.', 'error');
+                });
+        }
+
+        function displayOrderDetails(order) {
+            document.getElementById('orderDetails').style.display = 'block';
+            document.getElementById('noOrderFound').style.display = 'none';
+            
+            // Update order ID display
+            document.getElementById('displayOrderId').textContent = order.order_id;
+            
+            // Update status timeline
+            updateStatusTimeline(order.status, order.timestamps);
+            
+            // Load order items
+            loadOrderItems(order.items);
+            
+            // Load delivery details
+            loadDeliveryDetails(order);
+            
+            // Load order summary
+            loadOrderSummary(order);
+        }
+
+        function updateStatusTimeline(currentStatus, timestamps) {
+            const statusSteps = document.querySelectorAll('.status-step');
+            const statusOrder = ['pending', 'processing', 'shipped', 'delivered'];
+            const currentIndex = statusOrder.indexOf(currentStatus);
+            
+            statusSteps.forEach((step, index) => {
+                if (index <= currentIndex) {
+                    step.classList.add('completed');
+                } else {
+                    step.classList.remove('completed');
+                }
+                
+                if (index === currentIndex) {
+                    step.classList.add('current');
+                } else {
+                    step.classList.remove('current');
+                }
+            });
+            
+            // Update timestamps
+            if (timestamps) {
+                Object.keys(timestamps).forEach(status => {
+                    const timeElement = document.getElementById(status + 'Time');
+                    if (timeElement && timestamps[status]) {
+                        timeElement.textContent = new Date(timestamps[status]).toLocaleString();
+                    }
+                });
+            }
+        }
+
+        function showNoOrderFound() {
+            document.getElementById('orderDetails').style.display = 'none';
+            document.getElementById('noOrderFound').style.display = 'block';
+        }
+
+        function resetTracking() {
+            document.getElementById('orderDetails').style.display = 'none';
+            document.getElementById('noOrderFound').style.display = 'none';
+            document.getElementById('orderId').value = '';
+            document.getElementById('customerEmail').value = '';
+        }
+
+        function printOrder() {
+            window.print();
+        }
+
+        function shareOrder() {
+            const orderId = document.getElementById('displayOrderId').textContent;
+            const shareText = `Track my TryneX Lifestyle order: ${orderId}`;
+            const shareUrl = `${window.location.origin}/track-order.html?id=${orderId}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'TryneX Lifestyle Order Tracking',
+                    text: shareText,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(`${shareText}\n${shareUrl}`)
+                    .then(() => {
+                        showNotification('Order details copied to clipboard!', 'success');
+                    });
+            }
+        }
+
+        // Check for order ID in URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            
+            if (orderId) {
+                document.getElementById('orderId').value = orderId;
+                trackOrder();
+            }
+        });
+    </script>
+</body>
+</html>

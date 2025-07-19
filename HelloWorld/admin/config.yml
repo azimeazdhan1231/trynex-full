@@ -1,0 +1,81 @@
+
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "_products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Title (Bengali)", name: "title_bn", widget: "string", required: false}
+      - {label: "Price", name: "price", widget: "number", value_type: "float"}
+      - {label: "Original Price", name: "original_price", widget: "number", value_type: "float", required: false}
+      - {label: "Category", name: "category", widget: "select", options: ["mugs", "t-shirts", "bottles", "keychains", "gifts"]}
+      - {label: "Featured Image", name: "image", widget: "image"}
+      - {label: "Gallery", name: "gallery", widget: "list", field: {label: "Image", name: "image", widget: "image"}}
+      - {label: "Description", name: "description", widget: "markdown"}
+      - {label: "Customizable", name: "customizable", widget: "boolean", default: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Stock Status", name: "stock_status", widget: "select", options: ["in_stock", "out_of_stock", "limited"], default: "in_stock"}
+      - {label: "Tags", name: "tags", widget: "list", field: {label: "Tag", name: "tag", widget: "string"}}
+      - label: "Variants"
+        name: "variants"
+        widget: "list"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Price Modifier", name: "price_modifier", widget: "number", value_type: "float", default: 0}
+          - {label: "Available", name: "available", widget: "boolean", default: true}
+
+  - name: "categories"
+    label: "Categories"
+    folder: "_categories"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Name (Bengali)", name: "name_bn", widget: "string", required: false}
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+
+  - name: "orders"
+    label: "Orders"
+    folder: "_orders"
+    create: false
+    slug: "{{order_id}}"
+    fields:
+      - {label: "Order ID", name: "order_id", widget: "string"}
+      - {label: "Customer Name", name: "customer_name", widget: "string"}
+      - {label: "Customer Email", name: "customer_email", widget: "string"}
+      - {label: "Customer Phone", name: "customer_phone", widget: "string"}
+      - {label: "Total", name: "total", widget: "number", value_type: "float"}
+      - {label: "Status", name: "status", widget: "select", options: ["pending", "processing", "shipped", "delivered", "cancelled"]}
+      - {label: "Method", name: "method", widget: "select", options: ["website", "whatsapp", "email"]}
+      - {label: "Notes", name: "notes", widget: "text", required: false}
+      - {label: "Created At", name: "created_at", widget: "datetime"}
+
+  - name: "settings"
+    label: "Settings"
+    files:
+      - label: "Site Settings"
+        name: "site"
+        file: "_data/settings.yml"
+        fields:
+          - {label: "Site Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "Logo", name: "logo", widget: "image"}
+          - {label: "Contact Email", name: "contact_email", widget: "string"}
+          - {label: "Contact Phone", name: "contact_phone", widget: "string"}
+          - {label: "Social Media", name: "social", widget: "object", fields: [
+              {label: "Facebook", name: "facebook", widget: "string"},
+              {label: "Instagram", name: "instagram", widget: "string"},
+              {label: "Twitter", name: "twitter", widget: "string"}
+            ]}

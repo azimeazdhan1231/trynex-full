@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - TryneX Lifestyle</title>
+    <meta name="description" content="View detailed information about this product">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TryneX Lifestyle</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="custom-design.html" class="nav-link">Custom Design</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="track-order.html" class="nav-link">Track Order</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="products.html">Products</a>
+            <span>/</span>
+            <span id="productBreadcrumb">Product Details</span>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <section class="product-details">
+        <div class="container">
+            <div class="product-detail-grid">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img id="mainProductImage" src="" alt="" onclick="openImageModal()">
+                        <div class="image-badge" id="customizableBadge" style="display: none;">
+                            <i class="fas fa-paint-brush"></i>
+                            Customizable
+                        </div>
+                    </div>
+                    <div class="thumbnail-images" id="thumbnailImages">
+                        <!-- Thumbnails will be loaded dynamically -->
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h1 id="productTitle"></h1>
+                    <div class="product-price">
+                        <span id="productPrice"></span>
+                        <span id="originalPrice" class="original-price"></span>
+                    </div>
+                    <div class="product-description" id="productDescription">
+                        <!-- Description will be loaded dynamically -->
+                    </div>
+                    
+                    <div class="product-variants" id="productVariants">
+                        <!-- Variants will be loaded dynamically -->
+                    </div>
+
+                    <div class="product-quantity">
+                        <label>Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" id="productQuantity" value="1" min="1" max="99">
+                            <button class="qty-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="product-notes">
+                        <label>Special Instructions (Optional):</label>
+                        <textarea id="productNotes" placeholder="Any special instructions for customization..."></textarea>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="btn btn-primary btn-large" onclick="addToCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            Add to Cart
+                        </button>
+                        <button class="btn btn-secondary" onclick="buyNow()">
+                            <i class="fas fa-bolt"></i>
+                            Buy Now
+                        </button>
+                        <button class="btn btn-outline" onclick="shareProduct()">
+                            <i class="fas fa-share-alt"></i>
+                            Share
+                        </button>
+                    </div>
+
+                    <div class="product-features">
+                        <div class="feature">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Fast Delivery</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-medal"></i>
+                            <span>Premium Quality</span>
+                        </div>
+                        <div class="feature" id="customFeature" style="display: none;">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Customizable</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-undo"></i>
+                            <span>Easy Returns</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Design Section -->
+    <section class="custom-design-section" id="customDesignSection" style="display: none;">
+        <div class="container">
+            <h2>Customize This Product</h2>
+            <div class="custom-design-grid">
+                <div class="design-upload">
+                    <div class="upload-area" onclick="document.getElementById('designUpload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Upload Your Design</p>
+                        <span>JPG, PNG up to 5MB</span>
+                    </div>
+                    <input type="file" id="designUpload" accept="image/*" style="display: none;">
+                </div>
+                <div class="design-preview">
+                    <div class="mockup-container">
+                        <img id="mockupBase" src="" alt="Product Mockup">
+                        <canvas id="designCanvas"></canvas>
+                    </div>
+                    <div class="design-tools">
+                        <button class="tool-btn" onclick="resizeDesign()">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </button>
+                        <button class="tool-btn" onclick="rotateDesign()">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button class="tool-btn" onclick="moveDesign()">
+                            <i class="fas fa-arrows-alt"></i>
+                        </button>
+                        <button class="tool-btn" onclick="resetDesign()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Tabs -->
+    <section class="product-tabs">
+        <div class="container">
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="showTab('details')">Details</button>
+                <button class="tab-btn" onclick="showTab('specifications')">Specifications</button>
+                <button class="tab-btn" onclick="showTab('reviews')">Reviews</button>
+                <button class="tab-btn" onclick="showTab('shipping')">Shipping</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-panel active" id="detailsTab">
+                    <div id="productDetailsContent">
+                        <!-- Detailed product information -->
+                    </div>
+                </div>
+                <div class="tab-panel" id="specificationsTab">
+                    <div id="productSpecifications">
+                        <!-- Product specifications -->
+                    </div>
+                </div>
+                <div class="tab-panel" id="reviewsTab">
+                    <div class="reviews-section">
+                        <div class="reviews-summary">
+                            <div class="rating-overview">
+                                <div class="rating-score">4.5</div>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="rating-count">(24 reviews)</div>
+                            </div>
+                        </div>
+                        <div class="reviews-list" id="reviewsList">
+                            <!-- Reviews will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="shippingTab">
+                    <div class="shipping-info">
+                        <h3>Shipping Information</h3>
+                        <ul>
+                            <li><strong>Dhaka:</strong> 1-2 business days</li>
+                            <li><strong>Outside Dhaka:</strong> 3-5 business days</li>
+                            <li><strong>Shipping Cost:</strong> ৳60 inside Dhaka, ৳120 outside Dhaka</li>
+                            <li><strong>Free Shipping:</strong> Orders over ৳1500</li>
+                            <li><strong>Cash on Delivery:</strong> Available</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">Related Products</h2>
+            <div class="products-grid" id="relatedProducts">
+                <!-- Related products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" onclick="closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="">
+            <div class="image-navigation">
+                <button class="image-nav prev" onclick="prevImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="image-nav next" onclick="nextImage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="cart-close" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: ৳<span id="cartTotal">0</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+                    <button class="btn btn-primary" onclick="proceedToCheckout()">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TryneX Lifestyle</h4>
+                    <p>Premium custom gifts and lifestyle products in Bangladesh.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="custom-design.html">Custom Design</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="products.html?category=mugs">Mugs</a></li>
+                        <li><a href="products.html?category=t-shirts">T-Shirts</a></li>
+                        <li><a href="products.html?category=bottles">Bottles</a></li>
+                        <li><a href="products.html?category=keychains">Keychains</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fab fa-whatsapp"></i> 01747292277</p>
+                    <p><i class="fas fa-envelope"></i> trynexlifestyle@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-icons">
+                    <span class="footer-icon" onclick="footerIconClick()">🎁</span>
+                    <span class="footer-icon" onclick="footerIconClick()">⭐</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🚀</span>
+                    <span class="footer-icon" onclick="footerIconClick()">💎</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🎨</span>
+                </div>
+                <p>&copy; 2024 TryneX Lifestyle. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/customizer.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Initialize product page
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                loadProductDetails(productId);
+            } else {
+                window.location.href = 'products.html';
+            }
+        });
+    </script>
+</body>
+</html>
