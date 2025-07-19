@@ -1,24 +1,15 @@
 {
-  "name": "trynex-lifestyle",
+  "name": "workspace",
   "version": "1.0.0",
-  "description": "TryneX Lifestyle E-commerce Platform - Premium custom gifts and lifestyle products",
-  "main": "index.html",
+  "description": "Premium e-commerce platform for custom gifts and lifestyle products with integrated order management and custom design studio.",
+  "main": "index.js",
   "scripts": {
-    "build": "./build.sh",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx http-server . -p 8888",
-    "postinstall": "echo 'Dependencies installed successfully'"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["ecommerce", "custom-gifts", "lifestyle", "netlify"],
-  "author": "TryneX Lifestyle",
-  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "nodemailer": "^6.9.8"
-  },
-  "devDependencies": {
-    "@netlify/plugin-sitemap": "^0.8.1"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "nodemailer": "^7.0.5"
   }
 }
