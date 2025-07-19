@@ -1,14 +1,31 @@
-# TryneX Lifestyle - Static Site Configuration
+# TryneX Lifestyle - Netlify Configuration
 
 [build]
-  command = "echo 'Static site deployment - functions ready'"
+  command = "echo 'Static site - no build required'"
   publish = "."
 
 [build.environment]
   NODE_ENV = "production"
   NODE_VERSION = "18"
 
-# Netlify Functions (for email processing only)
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = false
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Netlify Functions
 [[functions]]
   directory = "netlify/functions"
 
@@ -98,3 +115,22 @@
 [context.production.environment]
   NODE_ENV = "production"
   SITE_URL = "https://trynex-lifestyle.netlify.app"
+
+# Plugin settings
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+  [plugins.inputs]
+    buildDir = "."
+    exclude = [
+      "/admin/**",
+      "/assets/images/uploads/**",
+      "/.netlify/**",
+      "/netlify/**",
+      "/package.json",
+      "/package-lock.json",
+      "/_redirects",
+      "/replit.md",
+      "/supabase-schema.sql",
+      "/DEPLOYMENT_GUIDE.md"
+    ]
