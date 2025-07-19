@@ -1,36 +1,40 @@
+
 [build]
-command = "npm install"
-publish = "."
+  command = ""
+  publish = "."
 
-[[functions]]
-directory = "netlify/functions"
-
-[[redirects]]
-from = "/api/*"
-to = "/.netlify/functions/:splat"
-status = 200
+[functions]
+  directory = "netlify/functions"
 
 [[redirects]]
-from = "/admin"
-to = "/admin/index.html"
-status = 200
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
 [[redirects]]
-from = "/product"
-to = "/product.html"
-status = 200
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
 
 [[redirects]]
-from = "/shop"
-to = "/products.html"
-status = 301
+  from = "/product"
+  to = "/product.html"
+  status = 200
 
 [[redirects]]
-from = "/whatsapp"
-to = "https://wa.me/8801747292277"
-status = 302
+  from = "/shop"
+  to = "/products.html"
+  status = 301
 
 [[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
+  from = "/whatsapp"
+  to = "https://wa.me/8801747292277"
+  status = 302
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  NODE_VERSION = "18"
