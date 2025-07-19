@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TryneX Lifestyle - Premium Custom Gifts</title>
+    <meta name="description" content="TryneX Lifestyle - Premium custom gifts, mugs, t-shirts, keychains and lifestyle products in Bangladesh">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TryneX Lifestyle</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="custom-design.html" class="nav-link">Custom Design</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="track-order.html" class="nav-link">Track Order</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <div class="search-suggestions" id="searchSuggestions"></div>
+            <button class="search-close" onclick="toggleSearch()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-carousel">
+            <div class="hero-slide active">
+                <div class="hero-bg" style="background-image: url('https://pixabay.com/get/ge247a9d217618b7f5da87bbd0654ea7386f5ef52fd8c243e905defeb9cd29d7e14191b3690743471a91dd967e0b29eb7d0fd5d901aef93333ce98a6b0a534073_1280.jpg')"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">Premium Custom Gifts</h1>
+                    <p class="hero-subtitle">Create personalized lifestyle products that tell your story</p>
+                    <a href="custom-design.html" class="cta-btn">Start Designing</a>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="hero-bg" style="background-image: url('https://pixabay.com/get/gde5cb3ee95d2403acd8319748827c2cd5c7c60096f6c44ec7f980d05ce00bae40078bca875ee80bdf993512b0b231ef83a75d3b25efa4fb4b34e1042f67325ad_1280.jpg')"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">Lifestyle Products</h1>
+                    <p class="hero-subtitle">মানসম্পন্ন উপহার ও লাইফস্টাইল পণ্য</p>
+                    <a href="products.html" class="cta-btn">Shop Now</a>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="hero-bg" style="background-image: url('https://pixabay.com/get/g01d6a90c6ea89f32d9e3758b660167439ca677ae9c323879941c899e03383d511bb1ae452463129b63ec41fa5eddd920032afe2591b07116c53341f549eea681_1280.jpg')"></div>
+                <div class="hero-content">
+                    <h1 class="hero-title">Quality Guaranteed</h1>
+                    <p class="hero-subtitle">Premium materials with exceptional craftsmanship</p>
+                    <a href="about.html" class="cta-btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-controls">
+            <button class="hero-nav prev" onclick="prevSlide()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="hero-nav next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="hero-indicators">
+            <span class="indicator active" onclick="currentSlide(1)"></span>
+            <span class="indicator" onclick="currentSlide(2)"></span>
+            <span class="indicator" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="featured-categories">
+        <div class="container">
+            <h2 class="section-title">Featured Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="mugs">
+                    <div class="category-image">
+                        <img src="https://pixabay.com/get/g89495b1b7844695918d3ae8c371b5754a86ea6b37d7eeb7b7cb634473131fa6d72efb877a2c02e74fef7428027dd3f7be940134cd543419178a37986f34de68d_1280.jpg" alt="Custom Mugs">
+                    </div>
+                    <div class="category-content">
+                        <h3>Custom Mugs</h3>
+                        <p>কাস্টম মগ</p>
+                        <span class="category-count">15+ Items</span>
+                    </div>
+                </div>
+                <div class="category-card" data-category="t-shirts">
+                    <div class="category-image">
+                        <img src="https://pixabay.com/get/g07df2518ca0be60971038c3de02c832ef39a22fb93f7b7cfb73aca93aaabc34b0ed270a85faf622ab3d9b8b269d3f6bfa956da860c48a5bff05a1f755248b4c2_1280.jpg" alt="T-Shirts">
+                    </div>
+                    <div class="category-content">
+                        <h3>T-Shirts</h3>
+                        <p>টি-শার্ট</p>
+                        <span class="category-count">20+ Items</span>
+                    </div>
+                </div>
+                <div class="category-card" data-category="bottles">
+                    <div class="category-image">
+                        <img src="https://pixabay.com/get/g6360f5d97a9162ac56340d985d4934bafc5f569e24168782761d3c954b1395bb780a0e4771ac9385e4d155182d7ccf825c0a447e75622581a4fc75bc8d6dca40_1280.jpg" alt="Water Bottles">
+                    </div>
+                    <div class="category-content">
+                        <h3>Water Bottles</h3>
+                        <p>পানির বোতল</p>
+                        <span class="category-count">10+ Items</span>
+                    </div>
+                </div>
+                <div class="category-card" data-category="keychains">
+                    <div class="category-image">
+                        <img src="https://pixabay.com/get/g73874b41b8b5d73bfa852f1b19a98f408adbd1adeaef50d04de0f2c53e2a665fc45a07fc9d63789d6cc7813e1ac91ed5bb5ad9f870160a2096ebbccb2b6589ec_1280.jpg" alt="Keychains">
+                    </div>
+                    <div class="category-content">
+                        <h3>Keychains</h3>
+                        <p>চাবির রিং</p>
+                        <span class="category-count">25+ Items</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Custom Design</h3>
+                    <p>Upload your own designs or create with our editor</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Quick delivery across Bangladesh</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>High-quality materials and printing</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Order</h3>
+                    <p>Easy ordering through WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Products -->
+    <section class="popular-products">
+        <div class="container">
+            <h2 class="section-title">Popular Products</h2>
+            <div class="products-grid" id="popularProducts">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            <div class="text-center">
+                <a href="products.html" class="cta-btn">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <button class="cart-close" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: ৳<span id="cartTotal">0</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" onclick="clearCart()">Clear Cart</button>
+                    <button class="btn btn-primary" onclick="proceedToCheckout()">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-content">
+            <div class="checkout-header">
+                <h3>Checkout</h3>
+                <button class="checkout-close" onclick="closeCheckout()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="checkout-methods">
+                <div class="checkout-method" onclick="selectCheckoutMethod('whatsapp')">
+                    <i class="fab fa-whatsapp"></i>
+                    <h4>WhatsApp Order</h4>
+                    <p>Order via WhatsApp (01747292277)<br>100৳ bKash required</p>
+                </div>
+                <div class="checkout-method" onclick="selectCheckoutMethod('email')">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email Order</h4>
+                    <p>Send order details via email</p>
+                </div>
+                <div class="checkout-method" onclick="selectCheckoutMethod('onsite')">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>On-site Confirmation</h4>
+                    <p>Complete order on website</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TryneX Lifestyle</h4>
+                    <p>Premium custom gifts and lifestyle products in Bangladesh.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="custom-design.html">Custom Design</a></li>
+                        <li><a href="track-order.html">Track Order</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="products.html?category=mugs">Mugs</a></li>
+                        <li><a href="products.html?category=t-shirts">T-Shirts</a></li>
+                        <li><a href="products.html?category=bottles">Bottles</a></li>
+                        <li><a href="products.html?category=keychains">Keychains</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fab fa-whatsapp"></i> 01747292277</p>
+                    <p><i class="fas fa-envelope"></i> trynexlifestyle@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-icons">
+                    <span class="footer-icon" onclick="footerIconClick()">🎁</span>
+                    <span class="footer-icon" onclick="footerIconClick()">⭐</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🚀</span>
+                    <span class="footer-icon" onclick="footerIconClick()">💎</span>
+                    <span class="footer-icon" onclick="footerIconClick()">🎨</span>
+                </div>
+                <p>&copy; 2024 TryneX Lifestyle. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Environment Configuration -->
+    <script src="assets/js/env.js"></script>
+    <!-- Supabase Integration -->
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

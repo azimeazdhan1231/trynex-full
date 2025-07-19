@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager - TryneX Lifestyle</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      text-align: center;
+    }
+    
+    .logo {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #FFD700;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    
+    .subtitle {
+      color: #cccccc;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+    
+    .cms-loading {
+      display: none;
+      color: #FFD700;
+      font-size: 1.2em;
+    }
+    
+    .cms-loading i {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container" id="loginContainer">
+    <div class="logo">TryneX Lifestyle</div>
+    <div class="subtitle">Content Management System</div>
+    <div id="netlifyIdentity"></div>
+    <div class="cms-loading" id="cmsLoading">
+      <i>⚙️</i> Loading CMS...
+    </div>
+  </div>
+
+  <script>
+    // Initialize Netlify Identity
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('cmsLoading').style.display = 'block';
+            loadCMS();
+          });
+        } else {
+          document.getElementById('loginContainer').style.display = 'none';
+          document.getElementById('cmsLoading').style.display = 'block';
+          loadCMS();
+        }
+      });
+    }
+
+    function loadCMS() {
+      // Load Netlify CMS
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js';
+      script.onload = function() {
+        document.body.innerHTML = '<div id="nc-root"></div>';
+        window.CMS.init({
+          config: {
+            backend: {
+              name: 'git-gateway',
+              branch: 'main'
+            },
+            media_folder: 'assets/images/uploads',
+            public_folder: '/assets/images/uploads',
+            collections: [
+              {
+                name: 'products',
+                label: 'Products',
+                folder: '_products',
+                create: true,
+                slug: '{{slug}}',
+                fields: [
+                  { label: 'Title', name: 'title', widget: 'string' },
+                  { label: 'Title (Bangla)', name: 'title_bn', widget: 'string', required: false },
+                  { label: 'Price', name: 'price', widget: 'number' },
+                  { label: 'Original Price', name: 'original_price', widget: 'number', required: false },
+                  { label: 'Category', name: 'category', widget: 'select', options: ['mugs', 't-shirts', 'bottles', 'keychains', 'gifts', 'accessories', 'home-decor', 'stationery', 'tech', 'bags', 'caps'] },
+                  { label: 'Featured Image', name: 'image', widget: 'image' },
+                  { label: 'Gallery', name: 'gallery', widget: 'list', field: { label: 'Image', name: 'image', widget: 'image' } },
+                  { label: 'Description', name: 'description', widget: 'markdown' },
+                  { label: 'Variants', name: 'variants', widget: 'list', fields: [
+                    { label: 'Type', name: 'type', widget: 'select', options: ['size', 'color', 'material'] },
+                    { label: 'Options', name: 'options', widget: 'list', field: { label: 'Option', name: 'option', widget: 'string' } }
+                  ]},
+                  { label: 'Tags', name: 'tags', widget: 'list', field: { label: 'Tag', name: 'tag', widget: 'string' } },
+                  { label: 'Customizable', name: 'customizable', widget: 'boolean', default: false },
+                  { label: 'Featured', name: 'featured', widget: 'boolean', default: false },
+                  { label: 'Stock Status', name: 'stock_status', widget: 'select', options: ['in_stock', 'low_stock', 'out_of_stock'], default: 'in_stock' }
+                ]
+              },
+              {
+                name: 'categories',
+                label: 'Categories',
+                folder: '_categories',
+                create: true,
+                slug: '{{slug}}',
+                fields: [
+                  { label: 'Name', name: 'name', widget: 'string' },
+                  { label: 'Name (Bangla)', name: 'name_bn', widget: 'string' },
+                  { label: 'Slug', name: 'slug', widget: 'string' },
+                  { label: 'Description', name: 'description', widget: 'text' },
+                  { label: 'Image', name: 'image', widget: 'image' },
+                  { label: 'Featured', name: 'featured', widget: 'boolean', default: false }
+                ]
+              },
+              {
+                name: 'homepage',
+                label: 'Homepage',
+                files: [
+                  {
+                    label: 'Hero Section',
+                    name: 'hero',
+                    file: '_data/hero.yml',
+                    fields: [
+                      { label: 'Slides', name: 'slides', widget: 'list', fields: [
+                        { label: 'Title', name: 'title', widget: 'string' },
+                        { label: 'Subtitle', name: 'subtitle', widget: 'string' },
+                        { label: 'Background Image', name: 'image', widget: 'image' },
+                        { label: 'CTA Text', name: 'cta_text', widget: 'string' },
+                        { label: 'CTA Link', name: 'cta_link', widget: 'string' }
+                      ]}
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        });
+      };
+      document.head.appendChild(script);
+    }
+  </script>
+</body>
+</html>

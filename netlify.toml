@@ -1,0 +1,136 @@
+# TryneX Lifestyle - Netlify Configuration
+
+[build]
+  command = "npm run build"
+  publish = "."
+
+[build.environment]
+  NODE_ENV = "production"
+  NODE_VERSION = "18"
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = false
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Netlify Functions
+[[functions]]
+  directory = "netlify/functions"
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://unpkg.com https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; media-src 'self' https:; object-src 'none'; frame-src 'self' https://identity.netlify.com; connect-src 'self' https://wifsqonbnfmwtqvupqbk.supabase.co https://api.netlify.com wss:; worker-src 'self' blob:"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
+
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+    Content-Type = "text/html; charset=UTF-8"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization, X-Requested-With"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/product"
+  to = "/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/product/*"
+  to = "/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/category/*"
+  to = "/products.html"
+  status = 200
+
+[[redirects]]
+  from = "/shop"
+  to = "/products.html"
+  status = 301
+
+[[redirects]]
+  from = "/whatsapp"
+  to = "https://wa.me/8801747292277"
+  status = 302
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Context-specific settings
+[context.production.environment]
+  NODE_ENV = "production"
+  SITE_URL = "https://trynex-lifestyle.netlify.app"
+
+# Plugin settings
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+  [plugins.inputs]
+    buildDir = "."
+    exclude = [
+      "/admin/**",
+      "/assets/images/uploads/**",
+      "/.netlify/**",
+      "/netlify/**",
+      "/package.json",
+      "/package-lock.json",
+      "/_redirects",
+      "/replit.md",
+      "/supabase-schema.sql",
+      "/DEPLOYMENT_GUIDE.md"
+    ]

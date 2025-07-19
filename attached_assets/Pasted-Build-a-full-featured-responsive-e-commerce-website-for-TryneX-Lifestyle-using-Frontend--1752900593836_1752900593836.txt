@@ -1,0 +1,73 @@
+Build a full-featured, responsive e-commerce website for “TryneX Lifestyle” using:
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Hosting**: Netlify
+- **CMS**: Netlify CMS (static content, dynamic product/category updates)
+- **Backend/Storage**: Supabase (order database + file uploads)
+- **Order Processing**: WhatsApp, Email (via Netlify Functions), and On-site
+
+✨ UI/UX Features:
+- Black background, gold accents, white typography
+- Parallax scrolling, hover effects, soft animations
+- Mobile-friendly grid layout
+- English+Bangla mix for product titles; Bangla only for prices
+- Carousel on homepage
+- Category filtering, price sliders, and live search with suggestions
+
+📦 Product System:
+- 11 categories + 39 extra items (mugs, t-shirts, bottles, keychains, gifts)
+- Product variants, price ranges, and CMS-driven updates
+- `/products.html` for all products
+- `/product.html` for individual item detail
+
+🛒 Cart System:
+- Modal cart with size/color/quantity/notes
+- Total calculator, editable items
+- Checkout with 3 methods:
+  1. WhatsApp (01747292277, 100৳ bKash required)
+  2. Email via Netlify Functions
+  3. On-site confirmation (Order ID format: TXR-YYYYMMDD-XXX)
+
+📋 Order Management:
+- Save all orders to Supabase:
+  - Table: `orders` → order_id, items[], notes, method, total, status, timestamp
+  - Trackable via `/track-order.html`
+- Admin dashboard (visible after 5 footer icon clicks + password)
+- Track status options: Pending, Processing, Shipped, Delivered
+
+🎨 Custom Design System:
+- Route: `/custom-design.html`
+- Upload JPG/PNG
+- Canvas editor: drag, resize, rotate
+- Preview on product mockup
+- Save to Supabase Storage
+- Save to `custom_orders` table in Supabase
+
+💾 Supabase Details:
+- PostgreSQL URL:  
+  `postgresql://postgres.wifsqonbnfmwtqvupqbk:Amits@12345@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`
+- Anon Key:  
+  `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpZnNxb25ibmZtd3RxdnVwcWJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1ODAyNjMsImV4cCI6MjA2NzE1NjI2M30.A7o3vhEaNZb9lmViHA_KQrwzKJTBWpsD6KbHqkkput0`
+
+📂 Netlify CMS Setup:
+- `/admin/` route
+- `config.yml` with collections:
+  - Products (title, price, category, image, variants, tags, description, customizable flag)
+  - Categories
+  - Homepage banners and sections
+
+📬 Email Order via Netlify Function:
+- File: `netlify/functions/sendEmail.js`
+- Sends order to your Gmail or business email via API (e.g., trynexlifestyle@gmail.com)
+
+🔒 Admin Trigger:
+- Footer icon clicked 5 times
+- Password prompt shown
+- Admin dashboard unlocks order controls, product editing
+
+📁 File Structure:
+(Refer to full structure above)
+
+🎯 Goal:
+A premium, visually impressive platform for TryneX to manage, sell, and fulfill custom gift orders in Bangladesh — with complete control via CMS and database.
+
